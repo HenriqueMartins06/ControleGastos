@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gerenciador de Finanças"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp"
+        android:textColor="#2196F3"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#F8F9FA"
+        android:padding="4dp">
+
+        <TextView
+            android:id="@+id/txtResultado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gastos:"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:padding="8dp"/>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp">
+
+        <android.widget.Button
+            android:id="@+id/btnUsuario"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:text="Gerenciar Usuários"
+            android:background="@drawable/botao"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:layout_marginBottom="8dp"/>
+
+        <android.widget.Button
+            android:id="@+id/btnCategoria"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:text="Gerenciar Categorias"
+            android:background="@drawable/botao"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:layout_marginBottom="8dp"/>
+
+        <android.widget.Button
+            android:id="@+id/btnGasto"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:text="Gerenciar Gastos"
+            android:background="@drawable/botao"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:layout_marginBottom="5dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registrar Novo Gasto"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="#2196F3"/>
+
+    <TextView
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Selecione o Usuário:"
+        android:textSize="12sp"
+        android:textColor="#666666"/>
+    <Spinner
+        android:id="@+id/spUsuario"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:background="@android:drawable/btn_dropdown" />
+
+    <TextView
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Selecione a Categoria:"
+        android:textSize="12sp"
+        android:textColor="#666666"/>
+    <Spinner
+        android:id="@+id/spCategoria"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:background="@android:drawable/btn_dropdown" />
+
+    <EditText
+        android:id="@+id/edtValor"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:hint="Valor (R$)"
+        android:inputType="numberDecimal"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/edtDescricao"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:hint="Descrição (ex: Almoço)"
+        android:layout_marginBottom="10dp"/>
+
+    <EditText
+        android:id="@+id/edtIdExcluir"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:hint="ID para excluir"
+        android:inputType="number"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"/>
+
+    <android.widget.Button
+        android:id="@+id/btnSalvarGasto"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Salvar Gasto"
+        android:background="@drawable/botao"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"
+        android:layout_marginBottom="8dp"/>
+
+    <android.widget.Button
+        android:id="@+id/btnExcluir"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Excluir por ID"
+        android:background="@drawable/botao"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"
+        android:layout_marginBottom="8dp"/>
+
+    <android.widget.Button
+        android:id="@+id/btnVoltar"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Voltar"
+        android:background="@drawable/botao"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"
+        android:layout_marginBottom="10dp"/>
+
+</LinearLayout>
