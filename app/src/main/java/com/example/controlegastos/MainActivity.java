@@ -1,8 +1,6 @@
 package com.example.controlegastos;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import dao.GastoDAO;
-import com.example.controlegastos.modelos.Gasto;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -11,7 +9,6 @@ import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.List;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +22,12 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        // Componente
+        txtResultado = findViewById(R.id.txtResultado);
+        btnUsuario = findViewById(R.id.btnUsuario);
+        btnCategoria = findViewById(R.id.btnCategoria);
+        btnGasto = findViewById(R.id.btnGasto);
+
         // TESTE FIREBASE
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -33,13 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         db.collection("teste").add(teste);
 
-        // Componente
-        txtResultado = findViewById(R.id.txtResultado);
-        btnUsuario = findViewById(R.id.btnUsuario);
-        btnCategoria = findViewById(R.id.btnCategoria);
-        btnGasto = findViewById(R.id.btnGasto);
-
-        atualizarLista();
+        txtResultado.setText("Firebase funcionando!\nAgora vamos migrar os dados.");
 
         // pra navegacao
         btnUsuario.setOnClickListener(v -> {
@@ -58,25 +55,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        atualizarLista();
-    }
-
-    private void atualizarLista() {
-        GastoDAO dao = new GastoDAO(this);
-        dao.Abrir();
-        List<Gasto> lista = dao.ListarTudo();
-        dao.Fechar();
-
-        StringBuilder texto = new StringBuilder();
-
-        for (Gasto g : lista) {
-            // manda imprimir, juntado no dao
-            texto.append("ID: ").append(g.getId()).append("\n")
-                    .append(g.getDescricao()).append("\n")
-                    .append("Valor: R$ ").append(g.getValor()).append("\n")
-                    .append("----------------------------\n");
-        }
-
-        txtResultado.setText(texto.toString());
+        // atualizarLista();
     }
 }
