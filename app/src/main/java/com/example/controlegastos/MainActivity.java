@@ -1,5 +1,6 @@
 package com.example.controlegastos;
 
+import com.google.firebase.firestore.FirebaseFirestore;
 import dao.GastoDAO;
 import com.example.controlegastos.modelos.Gasto;
 
@@ -9,7 +10,9 @@ import android.widget.Button;
 import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.List;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,12 +25,19 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
 
+        // TESTE FIREBASE
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        HashMap<String, Object> teste = new HashMap<>();
+        teste.put("mensagem", "firebase funcionando");
+
+        db.collection("teste").add(teste);
+
         // Componente
         txtResultado = findViewById(R.id.txtResultado);
         btnUsuario = findViewById(R.id.btnUsuario);
         btnCategoria = findViewById(R.id.btnCategoria);
         btnGasto = findViewById(R.id.btnGasto);
-
 
         atualizarLista();
 
@@ -60,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         StringBuilder texto = new StringBuilder();
 
         for (Gasto g : lista) {
-           //manda imprimir, juntado no dao
+            // manda imprimir, juntado no dao
             texto.append("ID: ").append(g.getId()).append("\n")
                     .append(g.getDescricao()).append("\n")
                     .append("Valor: R$ ").append(g.getValor()).append("\n")
