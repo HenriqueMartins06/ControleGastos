@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast; // adicionei o toast pros avisos
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import dao.UsuarioDAO;
 import com.example.controlegastos.modelos.Usuario;
-
-import java.util.List;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class UsuarioActivity extends AppCompatActivity {
 
@@ -18,10 +18,14 @@ public class UsuarioActivity extends AppCompatActivity {
     Button btnSalvar, btnVoltar, btnExcluir;
     TextView txtLista;
 
+    FirebaseFirestore db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usuario);
+
+        db = FirebaseFirestore.getInstance();
 
         // vincula os componente
         edtNome = findViewById(R.id.edtNomeUsuario);
@@ -42,61 +46,64 @@ public class UsuarioActivity extends AppCompatActivity {
                 return;
             }
 
-            UsuarioDAO dao = new UsuarioDAO(this);
-            dao.Abrir();
-            dao.Inserir(new Usuario(nome));
-            dao.Fechar();
+            Usuario usuario = new Usuario(nome);
 
-            edtNome.setText("");
-            atualizar();
+            db.collection("usuarios")
+                    .add(usuario)
+                    .addOnSuccessListener(documentReference -> {
+                        edtNome.setText("");
+                        Toast.makeText(this, "Usuário salvo!", Toast.LENGTH_SHORT).show();
+                        atualizar();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Erro ao salvar!", Toast.LENGTH_SHORT).show();
+                    });
         });
 
-        // excluui o usuario com a trava de seguranca
+        // exclui o usuario pelo id do firebase
         btnExcluir.setOnClickListener(v -> {
-            String idString = edtIdExcluir.getText().toString();
+            String id = edtIdExcluir.getText().toString();
 
-            if(idString.isEmpty()){
+            if(id.isEmpty()){
                 edtIdExcluir.setError("Digite um ID!");
                 return;
             }
 
-            int id = Integer.parseInt(idString);
-            UsuarioDAO dao = new UsuarioDAO(this);
-
-            // aqui a gente confere se o cara tem gasto antes de apagar
-            if (dao.temGasto(id)) {
-                Toast.makeText(this, "Não pode excluir! Esse usuário tem gastos.", Toast.LENGTH_SHORT).show();
-            } else {
-                // se nao tiver nada, apaga normal
-                dao.Abrir();
-                Usuario u = new Usuario();
-                u.setId(id);
-                dao.Excluir(u);
-                dao.Fechar();
-                Toast.makeText(this, "Usuário excluído!", Toast.LENGTH_SHORT).show();
-            }
-
-            edtIdExcluir.setText("");
-            atualizar();
+            db.collection("usuarios")
+                    .document(id)
+                    .delete()
+                    .addOnSuccessListener(aVoid -> {
+                        edtIdExcluir.setText("");
+                        Toast.makeText(this, "Usuário excluído!", Toast.LENGTH_SHORT).show();
+                        atualizar();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Erro ao excluir!", Toast.LENGTH_SHORT).show();
+                    });
         });
-
 
         btnVoltar.setOnClickListener(v -> finish());
     }
 
     private void atualizar(){
-        UsuarioDAO dao = new UsuarioDAO(this);
-        dao.Abrir();
-        List<Usuario> lista = dao.ListarTudo();
-        dao.Fechar();
 
-        StringBuilder texto = new StringBuilder("Lista de Usuários:\n\n");
+        db.collection("usuarios")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    StringBuilder texto = new StringBuilder("Lista de Usuários:\n\n");
 
-        for(Usuario u : lista){
-            texto.append("(ID:").append(u.getId()).append(") ")
-                    .append(u.getNome()).append("\n");
-        }
+                    for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                        Usuario u = doc.toObject(Usuario.class);
+                        u.setId(doc.getId());
 
-        txtLista.setText(texto.toString());
+                        texto.append("(ID: ").append(u.getId()).append(") ")
+                                .append(u.getNome()).append("\n");
+                    }
+
+                    txtLista.setText(texto.toString());
+                })
+                .addOnFailureListener(e -> {
+                    txtLista.setText("Erro ao listar usuários.");
+                });
     }
 }

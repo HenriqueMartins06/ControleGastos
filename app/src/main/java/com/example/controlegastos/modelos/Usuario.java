@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class Usuario implements Serializable {
 
-    private int Id;
+    private String Id;
     private String Nome;
 
     public Usuario(){
 
     }
 
-    public Usuario(int id, String nome) {
+    public Usuario(String id, String nome) {
         Id = id;
         Nome = nome;
     }
@@ -20,11 +20,11 @@ public class Usuario implements Serializable {
         Nome = nome;
     }
 
-    public int getId() {
+    public String getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         Id = id;
     }
 
