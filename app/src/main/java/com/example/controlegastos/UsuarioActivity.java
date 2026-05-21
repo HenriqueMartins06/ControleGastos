@@ -56,7 +56,7 @@ public class UsuarioActivity extends AppCompatActivity {
                         atualizar();
                     })
                     .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Erro ao salvar!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Erro ao salvar: " + e.getMessage(), Toast.LENGTH_LONG).show();
                     });
         });
 
@@ -103,7 +103,7 @@ public class UsuarioActivity extends AppCompatActivity {
                     txtLista.setText(texto.toString());
                 })
                 .addOnFailureListener(e -> {
-                    txtLista.setText("Erro ao listar usuários.");
+                    txtLista.setText("Erro ao listar: " + e.getMessage());
                 });
     }
 }
