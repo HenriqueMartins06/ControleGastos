@@ -6,14 +6,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:gravity="center_horizontal"> <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Gerenciar Usuários"
-    android:textSize="20sp"
-    android:textStyle="bold"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="20dp"/>
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gerenciar Usuários"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"/>
 
     <EditText
         android:id="@+id/edtNomeUsuario"
@@ -21,31 +23,28 @@
         android:layout_height="wrap_content"
         android:hint="Nome do usuário"/>
 
-    <EditText
-        android:id="@+id/edtIdExcluir"
-        android:layout_width="220dp"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="ID para excluir"
-        android:inputType="number"
+        android:text="Clique em um usuário para selecionar"
+        android:textSize="12sp"
         android:layout_marginTop="10dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="15dp">
 
-        <TextView
-            android:id="@+id/txtUsuarios"
+        <LinearLayout
+            android:id="@+id/layoutUsuarios"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Usuários:"
-            android:textSize="16sp"
-            android:padding="8dp"/>
+            android:orientation="vertical"/>
     </ScrollView>
 
-    <android.widget.Button
+    <Button
         android:id="@+id/btnSalvarUsuario"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
@@ -55,7 +54,17 @@
         android:textAllCaps="false"
         android:layout_marginBottom="8dp"/>
 
-    <android.widget.Button
+    <Button
+        android:id="@+id/btnAtualizar"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Atualizar"
+        android:background="@drawable/botao"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
         android:id="@+id/btnExcluir"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
@@ -65,7 +74,7 @@
         android:textAllCaps="false"
         android:layout_marginBottom="8dp"/>
 
-    <android.widget.Button
+    <Button
         android:id="@+id/btnVoltar"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
@@ -75,4 +84,4 @@
         android:textAllCaps="false"
         android:layout_marginBottom="10dp"/>
 
-</LinearLayout>
+</LinearLayout>s

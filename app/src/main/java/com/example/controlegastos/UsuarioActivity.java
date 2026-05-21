@@ -3,6 +3,7 @@ package com.example.controlegastos;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,11 +15,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class UsuarioActivity extends AppCompatActivity {
 
-    EditText edtNome, edtIdExcluir;
-    Button btnSalvar, btnVoltar, btnExcluir;
-    TextView txtLista;
+    EditText edtNome;
+    Button btnSalvar, btnAtualizar, btnExcluir, btnVoltar;
+    LinearLayout layoutUsuarios;
 
     FirebaseFirestore db;
+    String idSelecionado = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,83 +29,123 @@ public class UsuarioActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        // vincula os componente
         edtNome = findViewById(R.id.edtNomeUsuario);
-        edtIdExcluir = findViewById(R.id.edtIdExcluir);
         btnSalvar = findViewById(R.id.btnSalvarUsuario);
+        btnAtualizar = findViewById(R.id.btnAtualizar);
         btnExcluir = findViewById(R.id.btnExcluir);
         btnVoltar = findViewById(R.id.btnVoltar);
-        txtLista = findViewById(R.id.txtUsuarios);
+        layoutUsuarios = findViewById(R.id.layoutUsuarios);
 
-        atualizar();
+        atualizarLista();
 
-        // salvar o usuario
-        btnSalvar.setOnClickListener(v -> {
-            String nome = edtNome.getText().toString();
+        btnSalvar.setOnClickListener(v -> salvarUsuario());
 
-            if(nome.isEmpty()){
-                edtNome.setError("Digite um nome!");
-                return;
-            }
+        btnAtualizar.setOnClickListener(v -> atualizarUsuario());
 
-            Usuario usuario = new Usuario(nome);
-
-            db.collection("usuarios")
-                    .add(usuario)
-                    .addOnSuccessListener(documentReference -> {
-                        edtNome.setText("");
-                        Toast.makeText(this, "Usuário salvo!", Toast.LENGTH_SHORT).show();
-                        atualizar();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Erro ao salvar: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                    });
-        });
-
-        // exclui o usuario pelo id do firebase
-        btnExcluir.setOnClickListener(v -> {
-            String id = edtIdExcluir.getText().toString();
-
-            if(id.isEmpty()){
-                edtIdExcluir.setError("Digite um ID!");
-                return;
-            }
-
-            db.collection("usuarios")
-                    .document(id)
-                    .delete()
-                    .addOnSuccessListener(aVoid -> {
-                        edtIdExcluir.setText("");
-                        Toast.makeText(this, "Usuário excluído!", Toast.LENGTH_SHORT).show();
-                        atualizar();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Erro ao excluir!", Toast.LENGTH_SHORT).show();
-                    });
-        });
+        btnExcluir.setOnClickListener(v -> excluirUsuario());
 
         btnVoltar.setOnClickListener(v -> finish());
     }
 
-    private void atualizar(){
+    private void salvarUsuario(){
+        String nome = edtNome.getText().toString().trim();
+
+        if(nome.isEmpty()){
+            edtNome.setError("Digite um nome!");
+            return;
+        }
+
+        Usuario usuario = new Usuario(nome);
+
+        db.collection("usuarios")
+                .add(usuario)
+                .addOnSuccessListener(documentReference -> {
+                    edtNome.setText("");
+                    Toast.makeText(this, "Usuário salvo!", Toast.LENGTH_SHORT).show();
+                    atualizarLista();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Erro ao salvar: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+    }
+
+    private void atualizarUsuario(){
+        String nome = edtNome.getText().toString().trim();
+
+        if(idSelecionado.isEmpty()){
+            Toast.makeText(this, "Selecione um usuário!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(nome.isEmpty()){
+            edtNome.setError("Digite um nome!");
+            return;
+        }
+
+        db.collection("usuarios")
+                .document(idSelecionado)
+                .update("nome", nome)
+                .addOnSuccessListener(aVoid -> {
+                    limparCampos();
+                    Toast.makeText(this, "Usuário atualizado!", Toast.LENGTH_SHORT).show();
+                    atualizarLista();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Erro ao atualizar: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+    }
+
+    private void excluirUsuario(){
+        if(idSelecionado.isEmpty()){
+            Toast.makeText(this, "Selecione um usuário!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        db.collection("usuarios")
+                .document(idSelecionado)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    limparCampos();
+                    Toast.makeText(this, "Usuário excluído!", Toast.LENGTH_SHORT).show();
+                    atualizarLista();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Erro ao excluir: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+    }
+
+    private void atualizarLista(){
+        layoutUsuarios.removeAllViews();
 
         db.collection("usuarios")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
-                    StringBuilder texto = new StringBuilder("Lista de Usuários:\n\n");
 
                     for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
                         Usuario u = doc.toObject(Usuario.class);
                         u.setId(doc.getId());
 
-                        texto.append("(ID: ").append(u.getId()).append(") ")
-                                .append(u.getNome()).append("\n");
-                    }
+                        TextView txt = new TextView(this);
+                        txt.setText(u.getNome());
+                        txt.setTextSize(16);
+                        txt.setPadding(10, 10, 10, 10);
 
-                    txtLista.setText(texto.toString());
+                        txt.setOnClickListener(v -> {
+                            idSelecionado = u.getId();
+                            edtNome.setText(u.getNome());
+                            Toast.makeText(this, "Usuário selecionado!", Toast.LENGTH_SHORT).show();
+                        });
+
+                        layoutUsuarios.addView(txt);
+                    }
                 })
                 .addOnFailureListener(e -> {
-                    txtLista.setText("Erro ao listar: " + e.getMessage());
+                    Toast.makeText(this, "Erro ao listar: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
+    }
+
+    private void limparCampos(){
+        edtNome.setText("");
+        idSelecionado = "";
     }
 }
