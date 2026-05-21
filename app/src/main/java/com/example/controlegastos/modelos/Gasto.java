@@ -4,17 +4,23 @@ import java.io.Serializable;
 
 public class Gasto implements Serializable {
 
-    private int Id;
+    private String Id;
     private double Valor;
     private String Descricao;
-    private int UsuarioId;
-    private int CategoriaId;
+
+    private String UsuarioId;
+    private String CategoriaId;
 
     public Gasto(){
 
     }
 
-    public Gasto(int id, double valor, String descricao, int usuarioId, int categoriaId) {
+    public Gasto(String id,
+                 double valor,
+                 String descricao,
+                 String usuarioId,
+                 String categoriaId) {
+
         Id = id;
         Valor = valor;
         Descricao = descricao;
@@ -22,18 +28,22 @@ public class Gasto implements Serializable {
         CategoriaId = categoriaId;
     }
 
-    public Gasto(double valor, String descricao, int usuarioId, int categoriaId) {
+    public Gasto(double valor,
+                 String descricao,
+                 String usuarioId,
+                 String categoriaId) {
+
         Valor = valor;
         Descricao = descricao;
         UsuarioId = usuarioId;
         CategoriaId = categoriaId;
     }
 
-    public int getId() {
+    public String getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         Id = id;
     }
 
@@ -53,19 +63,19 @@ public class Gasto implements Serializable {
         Descricao = descricao;
     }
 
-    public int getUsuarioId() {
+    public String getUsuarioId() {
         return UsuarioId;
     }
 
-    public void setUsuarioId(int usuarioId) {
+    public void setUsuarioId(String usuarioId) {
         UsuarioId = usuarioId;
     }
 
-    public int getCategoriaId() {
+    public String getCategoriaId() {
         return CategoriaId;
     }
 
-    public void setCategoriaId(int categoriaId) {
+    public void setCategoriaId(String categoriaId) {
         CategoriaId = categoriaId;
     }
 }

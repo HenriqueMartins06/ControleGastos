@@ -24,12 +24,12 @@
         android:text="Selecione o Usuário:"
         android:textSize="12sp"
         android:textColor="#666666"/>
+
     <Spinner
         android:id="@+id/spUsuario"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:background="@android:drawable/btn_dropdown" />
+        android:layout_marginBottom="15dp"/>
 
     <TextView
         android:layout_width="220dp"
@@ -37,12 +37,12 @@
         android:text="Selecione a Categoria:"
         android:textSize="12sp"
         android:textColor="#666666"/>
+
     <Spinner
         android:id="@+id/spCategoria"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:background="@android:drawable/btn_dropdown" />
+        android:layout_marginBottom="15dp"/>
 
     <EditText
         android:id="@+id/edtValor"
@@ -56,19 +56,10 @@
         android:id="@+id/edtDescricao"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:hint="Descrição (ex: Almoço)"
-        android:layout_marginBottom="10dp"/>
+        android:hint="Descrição"
+        android:layout_marginBottom="15dp"/>
 
-    <EditText
-        android:id="@+id/edtIdExcluir"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:hint="ID para excluir"
-        android:inputType="number"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"/>
-
-    <android.widget.Button
+    <Button
         android:id="@+id/btnSalvarGasto"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
@@ -78,24 +69,13 @@
         android:textAllCaps="false"
         android:layout_marginBottom="8dp"/>
 
-    <android.widget.Button
-        android:id="@+id/btnExcluir"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:text="Excluir por ID"
-        android:background="@drawable/botao"
-        android:textColor="#FFFFFF"
-        android:textAllCaps="false"
-        android:layout_marginBottom="8dp"/>
-
-    <android.widget.Button
+    <Button
         android:id="@+id/btnVoltar"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:text="Voltar"
         android:background="@drawable/botao"
         android:textColor="#FFFFFF"
-        android:textAllCaps="false"
-        android:layout_marginBottom="10dp"/>
+        android:textAllCaps="false"/>
 
 </LinearLayout>

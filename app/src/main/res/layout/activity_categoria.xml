@@ -24,42 +24,48 @@
         android:layout_height="wrap_content"
         android:hint="Nome da categoria"/>
 
-    <EditText
-        android:id="@+id/edtIdExcluir"
-        android:layout_width="220dp"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="ID para excluir"
-        android:inputType="number"
+        android:text="Clique em uma categoria para selecionar"
+        android:textSize="12sp"
         android:layout_marginTop="10dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:background="#F8F9FA">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp">
 
-        <TextView
-            android:id="@+id/txtCategorias"
+        <LinearLayout
+            android:id="@+id/layoutCategorias"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Categorias cadastradas:"
-            android:textSize="16sp"
-            android:padding="8dp"/>
+            android:orientation="vertical"/>
     </ScrollView>
 
-    <android.widget.Button
+    <Button
         android:id="@+id/btnSalvarCategoria"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:text="Salvar Categoria"
+        android:text="Salvar"
         android:background="@drawable/botao"
         android:textColor="#FFFFFF"
         android:textAllCaps="false"
         android:layout_marginBottom="8dp"/>
 
-    <android.widget.Button
+    <Button
+        android:id="@+id/btnAtualizar"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Atualizar"
+        android:background="@drawable/botao"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
         android:id="@+id/btnExcluir"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
@@ -69,7 +75,7 @@
         android:textAllCaps="false"
         android:layout_marginBottom="8dp"/>
 
-    <android.widget.Button
+    <Button
         android:id="@+id/btnVoltar"
         android:layout_width="220dp"
         android:layout_height="wrap_content"

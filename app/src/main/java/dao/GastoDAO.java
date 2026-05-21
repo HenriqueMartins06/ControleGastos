@@ -29,81 +29,102 @@ public class GastoDAO {
     }
 
     public Long Inserir(Gasto g){
+
         ContentValues dados = new ContentValues();
+
         dados.put("Valor", g.getValor());
         dados.put("Descricao", g.getDescricao());
         dados.put("UsuarioId", g.getUsuarioId());
         dados.put("CategoriaId", g.getCategoriaId());
 
+        this.Abrir();
+
         Long id = db.insert("gasto", null, dados);
+
+        this.Fechar();
+
         return id;
     }
 
     public void Excluir(Gasto g){
-        if (g.getId() <= 0){
+
+        if (g.getId() == null || g.getId().isEmpty()){
             return;
         }
 
         this.Abrir();
-        db.delete("gasto", "Id=?", new String[]{String.valueOf(g.getId())});
+
+        db.delete("gasto", "Id=?", new String[]{g.getId()});
+
         this.Fechar();
     }
 
     public void Atualizar(Gasto g){
-        if (g.getId() <= 0){
+
+        if (g.getId() == null || g.getId().isEmpty()){
             return;
         }
 
         ContentValues dados = new ContentValues();
+
         dados.put("Valor", g.getValor());
         dados.put("Descricao", g.getDescricao());
         dados.put("UsuarioId", g.getUsuarioId());
         dados.put("CategoriaId", g.getCategoriaId());
 
         this.Abrir();
-        db.update("gasto", dados, "Id=?", new String[]{String.valueOf(g.getId())});
+
+        db.update("gasto", dados, "Id=?", new String[]{g.getId()});
+
         this.Fechar();
     }
 
-    public List<Gasto> ListarTudo() {
+    public List<Gasto> ListarTudo(){
+
         List<Gasto> lista = new ArrayList<>();
+
         this.Abrir();
 
-        // junta o gasto, categoria e usuario, cada um é sua inicial
-        String sql = "SELECT g.Id, g.Valor, g.Descricao, g.UsuarioId, g.CategoriaId, c.Nome, u.Nome " +
-                "FROM gasto g " +
-                "INNER JOIN categoria c ON g.CategoriaId = c.Id " +
-                "INNER JOIN usuario u ON g.UsuarioId = u.Id " +
-                "ORDER BY g.Id DESC";
+        String campos[] = new String[]{
+                "Id",
+                "Valor",
+                "Descricao",
+                "UsuarioId",
+                "CategoriaId"
+        };
 
-        Cursor dados = db.rawQuery(sql, null);
+        Cursor dados = db.query(
+                "gasto",
+                campos,
+                null,
+                null,
+                null,
+                null,
+                "Id DESC"
+        );
 
-        if (dados.moveToFirst()) {
-            while (!dados.isAfterLast()) {
-                // Pegamos o Nome do Usuário (índice 6) e o Nome da Categoria (índice 5)
-                String nomeCategoria = dados.getString(5);
-                String nomeUsuario = dados.getString(6);
+        if (dados.moveToFirst()){
 
-                // dado completo ja
-                String infoCompleta = "Cliente: " + nomeUsuario +
-                        "\nDesc: " + dados.getString(2) +
-                        "\nCat: " + nomeCategoria;
+            while (!dados.isAfterLast()){
 
                 Gasto g = new Gasto(
-                        dados.getInt(0),
+                        dados.getString(0),
                         dados.getDouble(1),
-                        infoCompleta, // com tudo ja
-                        dados.getInt(3),
-                        dados.getInt(4)
+                        dados.getString(2),
+                        dados.getString(3),
+                        dados.getString(4)
                 );
 
                 lista.add(g);
+
                 dados.moveToNext();
             }
         }
 
         dados.close();
+
         this.Fechar();
+
         return lista;
     }
 }

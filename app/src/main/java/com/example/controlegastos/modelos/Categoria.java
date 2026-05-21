@@ -4,14 +4,14 @@ import java.io.Serializable;
 
 public class Categoria implements Serializable {
 
-    private int Id;
+    private String Id;
     private String Nome;
 
     public Categoria(){
 
     }
 
-    public Categoria(int id, String nome) {
+    public Categoria(String id, String nome) {
         Id = id;
         Nome = nome;
     }
@@ -20,11 +20,11 @@ public class Categoria implements Serializable {
         Nome = nome;
     }
 
-    public int getId() {
+    public String getId() {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         Id = id;
     }
 

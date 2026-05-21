@@ -3,100 +3,149 @@ package com.example.controlegastos;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast; // adicionei pra mostrar os avisos
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import dao.CategoriaDAO;
 import com.example.controlegastos.modelos.Categoria;
-
-import java.util.List;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class CategoriaActivity extends AppCompatActivity {
 
-    EditText edtNome, edtIdExcluir;
-    Button btnSalvar, btnVoltar, btnExcluir;
-    TextView txtLista;
+    EditText edtNome;
+    Button btnSalvar, btnAtualizar, btnExcluir, btnVoltar;
+    LinearLayout layoutCategorias;
+
+    FirebaseFirestore db;
+    String idSelecionado = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categoria);
 
-        // pra funcionar os btn
+        db = FirebaseFirestore.getInstance();
+
         edtNome = findViewById(R.id.edtNomeCategoria);
-        edtIdExcluir = findViewById(R.id.edtIdExcluir);
         btnSalvar = findViewById(R.id.btnSalvarCategoria);
+        btnAtualizar = findViewById(R.id.btnAtualizar);
         btnExcluir = findViewById(R.id.btnExcluir);
         btnVoltar = findViewById(R.id.btnVoltar);
-        txtLista = findViewById(R.id.txtCategorias);
+        layoutCategorias = findViewById(R.id.layoutCategorias);
 
-        atualizar();
+        atualizarLista();
 
+        btnSalvar.setOnClickListener(v -> salvarCategoria());
 
-        btnSalvar.setOnClickListener(v -> {
-            String nome = edtNome.getText().toString();
+        btnAtualizar.setOnClickListener(v -> atualizarCategoria());
 
-            if(nome.isEmpty()){
-                edtNome.setError("Digite uma categoria!");
-                return;
-            }
+        btnExcluir.setOnClickListener(v -> excluirCategoria());
 
-            CategoriaDAO dao = new CategoriaDAO(this);
-            dao.Abrir();
-            dao.Inserir(new Categoria(nome));
-            dao.Fechar();
-
-            edtNome.setText("");
-            atualizar();
-        });
-
-        // exxcluii com a trava de segurança
-        btnExcluir.setOnClickListener(v -> {
-            String idString = edtIdExcluir.getText().toString();
-
-            if(idString.isEmpty()){
-                edtIdExcluir.setError("Digite um ID!");
-                return;
-            }
-
-            int id = Integer.parseInt(idString);
-            CategoriaDAO dao = new CategoriaDAO(this);
-
-            // verifica se a categoria tem  gasto
-            if (dao.temGasto(id)) {
-                Toast.makeText(this, "Não pode apagar! Tem gasto nessa categoria.", Toast.LENGTH_SHORT).show();
-            } else {
-                // se nao tiver nada preso, apaga
-                dao.Abrir();
-                Categoria c = new Categoria();
-                c.setId(id);
-                dao.Excluir(c);
-                dao.Fechar();
-                Toast.makeText(this, "Categoria excluída!", Toast.LENGTH_SHORT).show();
-            }
-
-            edtIdExcluir.setText("");
-            atualizar();
-        });
-
-        //vlt
         btnVoltar.setOnClickListener(v -> finish());
     }
 
-    private void atualizar(){
-        CategoriaDAO dao = new CategoriaDAO(this);
-        dao.Abrir();
-        List<Categoria> lista = dao.ListarTudo();
-        dao.Fechar();
+    private void salvarCategoria(){
+        String nome = edtNome.getText().toString().trim();
 
-        StringBuilder texto = new StringBuilder("Categorias cadastradas:\n\n");
-
-        for(Categoria c : lista){
-            texto.append("(ID:").append(c.getId()).append(") ")
-                    .append(c.getNome()).append("\n");
+        if(nome.isEmpty()){
+            edtNome.setError("Digite uma categoria!");
+            return;
         }
 
-        txtLista.setText(texto.toString());
+        Categoria categoria = new Categoria(nome);
+
+        db.collection("categorias")
+                .add(categoria)
+                .addOnSuccessListener(documentReference -> {
+                    edtNome.setText("");
+                    Toast.makeText(this, "Categoria salva!", Toast.LENGTH_SHORT).show();
+                    atualizarLista();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Erro ao salvar: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+    }
+
+    private void atualizarCategoria(){
+        String nome = edtNome.getText().toString().trim();
+
+        if(idSelecionado.isEmpty()){
+            Toast.makeText(this, "Selecione uma categoria!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(nome.isEmpty()){
+            edtNome.setError("Digite uma categoria!");
+            return;
+        }
+
+        db.collection("categorias")
+                .document(idSelecionado)
+                .update("nome", nome)
+                .addOnSuccessListener(aVoid -> {
+                    limparCampos();
+                    Toast.makeText(this, "Categoria atualizada!", Toast.LENGTH_SHORT).show();
+                    atualizarLista();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Erro ao atualizar: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+    }
+
+    private void excluirCategoria(){
+        if(idSelecionado.isEmpty()){
+            Toast.makeText(this, "Selecione uma categoria!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        db.collection("categorias")
+                .document(idSelecionado)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    limparCampos();
+                    Toast.makeText(this, "Categoria excluída!", Toast.LENGTH_SHORT).show();
+                    atualizarLista();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Erro ao excluir: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+    }
+
+    private void atualizarLista(){
+        layoutCategorias.removeAllViews();
+
+        db.collection("categorias")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+
+                    for(QueryDocumentSnapshot doc : queryDocumentSnapshots){
+                        Categoria c = doc.toObject(Categoria.class);
+                        c.setId(doc.getId());
+
+                        TextView txt = new TextView(this);
+                        txt.setText(c.getNome());
+                        txt.setTextSize(16);
+                        txt.setPadding(10, 10, 10, 10);
+
+                        txt.setOnClickListener(v -> {
+                            idSelecionado = c.getId();
+                            edtNome.setText(c.getNome());
+                            Toast.makeText(this, "Categoria selecionada!", Toast.LENGTH_SHORT).show();
+                        });
+
+                        layoutCategorias.addView(txt);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Erro ao listar: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+    }
+
+    private void limparCampos(){
+        edtNome.setText("");
+        idSelecionado = "";
     }
 }
