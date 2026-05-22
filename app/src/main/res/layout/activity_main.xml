@@ -4,34 +4,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#EEF3F8">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gerenciador de Finanças"
-        android:textSize="22sp"
+        android:text="Controle de Gastos"
+        android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="15dp"
-        android:textColor="#2196F3"/>
+        android:textColor="#1565C0"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gastos cadastrados"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginBottom="8dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#F8F9FA"
-        android:padding="4dp">
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/txtResultado"
+        <LinearLayout
+            android:id="@+id/layoutGastos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gastos:"
-            android:textSize="16sp"
-            android:textColor="#333333"
-            android:padding="8dp"/>
+            android:orientation="vertical"/>
     </ScrollView>
 
     <LinearLayout
@@ -39,10 +44,11 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp">
+        android:background="#FFFFFF"
+        android:padding="12dp"
+        android:layout_marginTop="15dp">
 
-        <android.widget.Button
+        <Button
             android:id="@+id/btnUsuario"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
@@ -52,7 +58,7 @@
             android:textAllCaps="false"
             android:layout_marginBottom="8dp"/>
 
-        <android.widget.Button
+        <Button
             android:id="@+id/btnCategoria"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
@@ -62,16 +68,14 @@
             android:textAllCaps="false"
             android:layout_marginBottom="8dp"/>
 
-        <android.widget.Button
+        <Button
             android:id="@+id/btnGasto"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
-            android:text="Gerenciar Gastos"
+            android:text="Registrar Gasto"
             android:background="@drawable/botao"
             android:textColor="#FFFFFF"
-            android:textAllCaps="false"
-            android:layout_marginBottom="5dp"/>
-
+            android:textAllCaps="false"/>
     </LinearLayout>
 
 </LinearLayout>
