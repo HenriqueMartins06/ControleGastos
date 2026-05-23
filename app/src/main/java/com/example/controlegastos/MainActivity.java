@@ -17,7 +17,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 public class MainActivity extends AppCompatActivity {
 
     LinearLayout layoutGastos;
-    Button btnUsuario, btnCategoria, btnGasto;
+    Button btnUsuario, btnCategoria, btnFormaPagamento, btnGasto;
 
     FirebaseFirestore db;
 
@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         layoutGastos = findViewById(R.id.layoutGastos);
         btnUsuario = findViewById(R.id.btnUsuario);
         btnCategoria = findViewById(R.id.btnCategoria);
+        btnFormaPagamento = findViewById(R.id.btnFormaPagamento);
         btnGasto = findViewById(R.id.btnGasto);
 
         atualizarLista();
@@ -40,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
 
         btnCategoria.setOnClickListener(v ->
                 startActivity(new Intent(this, CategoriaActivity.class)));
+
+        btnFormaPagamento.setOnClickListener(v ->
+                startActivity(new Intent(this, FormaPagamentoActivity.class)));
 
         btnGasto.setOnClickListener(v ->
                 startActivity(new Intent(this, GastoActivity.class)));
