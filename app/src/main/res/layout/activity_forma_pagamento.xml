@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal"
+    android:background="#EEF3F8">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Formas de Pagamento"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#1565C0"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"/>
+
+    <EditText
+        android:id="@+id/edtNomeForma"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:hint="Ex: Pix, Cartão, Dinheiro"/>
+
+    <TextView
+        android:id="@+id/txtFormas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Formas cadastradas:"
+        android:textSize="16sp"
+        android:textColor="#333333"
+        android:padding="12dp"
+        android:layout_marginTop="15dp"
+        android:background="#FFFFFF"/>
+
+    <Button
+        android:id="@+id/btnSalvarForma"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Salvar"
+        android:background="@drawable/botao"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btnAtualizarForma"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Atualizar"
+        android:background="@drawable/botao"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btnExcluirForma"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Excluir"
+        android:background="@drawable/botao_excluir"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btnVoltarForma"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="Voltar"
+        android:background="@drawable/botao"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"/>
+
+</LinearLayout>
