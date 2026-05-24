@@ -17,7 +17,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 public class MainActivity extends AppCompatActivity {
 
     LinearLayout layoutGastos;
-    Button btnUsuario, btnCategoria, btnFormaPagamento, btnGasto;
+    Button btnUsuario, btnCategoria, btnFormaPagamento, btnReceita, btnGasto;
 
     FirebaseFirestore db;
 
@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         btnUsuario = findViewById(R.id.btnUsuario);
         btnCategoria = findViewById(R.id.btnCategoria);
         btnFormaPagamento = findViewById(R.id.btnFormaPagamento);
+        btnReceita = findViewById(R.id.btnReceita);
         btnGasto = findViewById(R.id.btnGasto);
 
         atualizarLista();
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
         btnFormaPagamento.setOnClickListener(v ->
                 startActivity(new Intent(this, FormaPagamentoActivity.class)));
+
+        btnReceita.setOnClickListener(v ->
+                startActivity(new Intent(this, ReceitaActivity.class)));
 
         btnGasto.setOnClickListener(v ->
                 startActivity(new Intent(this, GastoActivity.class)));
@@ -65,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
                     if (queryDocumentSnapshots.isEmpty()) {
                         TextView vazio = new TextView(this);
-                        vazio.setText("Nenhum gasto cadastrado.");
+                        vazio.setText("Nenhuma movimentação cadastrada.");
                         vazio.setTextSize(16);
                         vazio.setTextColor(Color.BLACK);
                         layoutGastos.addView(vazio);
@@ -86,17 +90,24 @@ public class MainActivity extends AppCompatActivity {
                                 LinearLayout.LayoutParams.MATCH_PARENT,
                                 LinearLayout.LayoutParams.WRAP_CONTENT
                         );
-
                         params.setMargins(0, 0, 0, 20);
                         linha.setLayoutParams(params);
 
                         TextView txt = new TextView(this);
+
+                        String usuario = g.getUsuarioNome() != null ? g.getUsuarioNome() : "Não informado";
+                        String categoria = g.getCategoriaNome() != null ? g.getCategoriaNome() : "Não informado";
+                        String forma = g.getFormaPagamentoNome() != null ? g.getFormaPagamentoNome() : "Não informado";
+
                         txt.setText(
                                 "Descrição: " + g.getDescricao() +
-                                        "\nValor: R$ " + g.getValor()
+                                        "\nValor: R$ " + g.getValor() +
+                                        "\nUsuário: " + usuario +
+                                        "\nCategoria: " + categoria +
+                                        "\nPagamento: " + forma
                         );
 
-                        txt.setTextSize(16);
+                        txt.setTextSize(14);
                         txt.setTextColor(Color.BLACK);
 
                         txt.setLayoutParams(new LinearLayout.LayoutParams(
@@ -107,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
 
                         Button btnExcluir = new Button(this);
                         btnExcluir.setText("Excluir");
+                        btnExcluir.setTextSize(10);
+                        btnExcluir.setPadding(16, 8, 16, 8);
                         btnExcluir.setBackgroundResource(R.drawable.botao_excluir);
                         btnExcluir.setTextColor(Color.WHITE);
 
@@ -130,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Erro ao carregar gastos.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Erro ao carregar dados.", Toast.LENGTH_SHORT).show();
                 });
     }
 }

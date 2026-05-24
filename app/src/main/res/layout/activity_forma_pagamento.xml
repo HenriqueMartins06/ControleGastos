@@ -26,43 +26,33 @@
         android:hint="Ex: Pix, Cartão, Dinheiro"/>
 
     <TextView
-        android:id="@+id/txtFormas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Use Editar ou Excluir ao lado da forma"
+        android:textSize="12sp"
+        android:layout_marginTop="10dp"/>
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="Formas cadastradas:"
-        android:textSize="16sp"
-        android:textColor="#333333"
-        android:padding="12dp"
-        android:layout_marginTop="15dp"
-        android:background="#FFFFFF"/>
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp">
+
+        <LinearLayout
+            android:id="@+id/layoutFormas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"/>
+
+    </ScrollView>
 
     <Button
         android:id="@+id/btnSalvarForma"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:text="Salvar"
+        android:text="Salvar / Atualizar"
         android:background="@drawable/botao"
-        android:textColor="#FFFFFF"
-        android:textAllCaps="false"
-        android:layout_marginBottom="8dp"/>
-
-    <Button
-        android:id="@+id/btnAtualizarForma"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:text="Atualizar"
-        android:background="@drawable/botao"
-        android:textColor="#FFFFFF"
-        android:textAllCaps="false"
-        android:layout_marginBottom="8dp"/>
-
-    <Button
-        android:id="@+id/btnExcluirForma"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:text="Excluir"
-        android:background="@drawable/botao_excluir"
         android:textColor="#FFFFFF"
         android:textAllCaps="false"
         android:layout_marginBottom="8dp"/>

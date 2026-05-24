@@ -10,7 +10,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Controle de Gastos"
+        android:text="Controle Financeiro"
         android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
@@ -21,7 +21,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gastos cadastrados"
+        android:text="Movimentações cadastradas"
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="#333333"
@@ -73,6 +73,16 @@
             android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:text="Formas de Pagamento"
+            android:background="@drawable/botao"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:layout_marginBottom="8dp"/>
+
+        <Button
+            android:id="@+id/btnReceita"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:text="Registrar Receita"
             android:background="@drawable/botao"
             android:textColor="#FFFFFF"
             android:textAllCaps="false"

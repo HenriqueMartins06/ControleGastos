@@ -12,12 +12,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Registrar Novo Gasto"
+        android:text="Registrar Receita"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="#2E7D32"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:textColor="#1565C0"/>
+        android:layout_marginBottom="20dp"/>
 
     <TextView
         android:layout_width="220dp"
@@ -27,20 +27,7 @@
         android:textColor="#666666"/>
 
     <Spinner
-        android:id="@+id/spUsuario"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"/>
-
-    <TextView
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:text="Selecione a Categoria:"
-        android:textSize="12sp"
-        android:textColor="#666666"/>
-
-    <Spinner
-        android:id="@+id/spCategoria"
+        android:id="@+id/spUsuarioReceita"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"/>
@@ -53,38 +40,45 @@
         android:textColor="#666666"/>
 
     <Spinner
-        android:id="@+id/spFormaPagamento"
+        android:id="@+id/spFormaReceita"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"/>
 
     <EditText
-        android:id="@+id/edtValor"
+        android:id="@+id/edtValorReceita"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:hint="Valor (R$)"
         android:inputType="numberDecimal"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginBottom="10dp"/>
 
     <EditText
-        android:id="@+id/edtDescricao"
+        android:id="@+id/edtDescricaoReceita"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:hint="Descrição"
+        android:layout_marginBottom="10dp"/>
+
+    <EditText
+        android:id="@+id/edtOrigemReceita"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:hint="Origem (Salário, Freelance, Pix...)"
         android:layout_marginBottom="15dp"/>
 
     <Button
-        android:id="@+id/btnSalvarGasto"
+        android:id="@+id/btnSalvarReceita"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:text="Salvar Gasto"
+        android:text="Salvar Receita"
         android:background="@drawable/botao"
         android:textColor="#FFFFFF"
         android:textAllCaps="false"
         android:layout_marginBottom="8dp"/>
 
     <Button
-        android:id="@+id/btnVoltar"
+        android:id="@+id/btnVoltarReceita"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:text="Voltar"

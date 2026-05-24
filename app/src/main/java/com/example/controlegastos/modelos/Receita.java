@@ -2,61 +2,36 @@ package com.example.controlegastos.modelos;
 
 import java.io.Serializable;
 
-public class Gasto implements Serializable {
+public class Receita implements Serializable {
 
     private String Id;
     private double Valor;
     private String Descricao;
+    private String Origem;
 
     private String UsuarioId;
     private String UsuarioNome;
 
-    private String CategoriaId;
-    private String CategoriaNome;
-
     private String FormaPagamentoId;
     private String FormaPagamentoNome;
 
-    public Gasto(){
+    public Receita() {
 
     }
 
-    public Gasto(String id,
-                 double valor,
-                 String descricao,
-                 String usuarioId,
-                 String usuarioNome,
-                 String categoriaId,
-                 String categoriaNome,
-                 String formaPagamentoId,
-                 String formaPagamentoNome) {
-
-        Id = id;
-        Valor = valor;
-        Descricao = descricao;
-        UsuarioId = usuarioId;
-        UsuarioNome = usuarioNome;
-        CategoriaId = categoriaId;
-        CategoriaNome = categoriaNome;
-        FormaPagamentoId = formaPagamentoId;
-        FormaPagamentoNome = formaPagamentoNome;
-    }
-
-    public Gasto(double valor,
-                 String descricao,
-                 String usuarioId,
-                 String usuarioNome,
-                 String categoriaId,
-                 String categoriaNome,
-                 String formaPagamentoId,
-                 String formaPagamentoNome) {
+    public Receita(double valor,
+                   String descricao,
+                   String origem,
+                   String usuarioId,
+                   String usuarioNome,
+                   String formaPagamentoId,
+                   String formaPagamentoNome) {
 
         Valor = valor;
         Descricao = descricao;
+        Origem = origem;
         UsuarioId = usuarioId;
         UsuarioNome = usuarioNome;
-        CategoriaId = categoriaId;
-        CategoriaNome = categoriaNome;
         FormaPagamentoId = formaPagamentoId;
         FormaPagamentoNome = formaPagamentoNome;
     }
@@ -85,6 +60,14 @@ public class Gasto implements Serializable {
         Descricao = descricao;
     }
 
+    public String getOrigem() {
+        return Origem;
+    }
+
+    public void setOrigem(String origem) {
+        Origem = origem;
+    }
+
     public String getUsuarioId() {
         return UsuarioId;
     }
@@ -99,22 +82,6 @@ public class Gasto implements Serializable {
 
     public void setUsuarioNome(String usuarioNome) {
         UsuarioNome = usuarioNome;
-    }
-
-    public String getCategoriaId() {
-        return CategoriaId;
-    }
-
-    public void setCategoriaId(String categoriaId) {
-        CategoriaId = categoriaId;
-    }
-
-    public String getCategoriaNome() {
-        return CategoriaNome;
-    }
-
-    public void setCategoriaNome(String categoriaNome) {
-        CategoriaNome = categoriaNome;
     }
 
     public String getFormaPagamentoId() {

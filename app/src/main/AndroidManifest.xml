@@ -13,6 +13,10 @@
         android:theme="@style/Theme.ControleGastos">
 
         <activity
+            android:name=".ReceitaActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".FormaPagamentoActivity"
             android:exported="false" />
 

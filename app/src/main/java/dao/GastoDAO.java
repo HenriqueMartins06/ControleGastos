@@ -112,7 +112,11 @@ public class GastoDAO {
                         dados.getDouble(1),
                         dados.getString(2),
                         dados.getString(3),
-                        dados.getString(4)
+                        "",
+                        dados.getString(4),
+                        "",
+                        "",
+                        ""
                 );
 
                 lista.add(g);

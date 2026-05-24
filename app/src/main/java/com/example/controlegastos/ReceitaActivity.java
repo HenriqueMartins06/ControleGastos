@@ -4,9 +4,8 @@ import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.controlegastos.modelos.Categoria;
 import com.example.controlegastos.modelos.FormaPagamento;
-import com.example.controlegastos.modelos.Gasto;
+import com.example.controlegastos.modelos.Receita;
 import com.example.controlegastos.modelos.Usuario;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -14,40 +13,38 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GastoActivity extends AppCompatActivity {
+public class ReceitaActivity extends AppCompatActivity {
 
-    Spinner spUsuario, spCategoria, spFormaPagamento;
-    EditText edtValor, edtDescricao;
+    Spinner spUsuario, spFormaPagamento;
+    EditText edtValor, edtDescricao, edtOrigem;
     Button btnSalvar, btnVoltar;
 
     FirebaseFirestore db;
 
     List<Usuario> listaUsuarios = new ArrayList<>();
-    List<Categoria> listaCategorias = new ArrayList<>();
     List<FormaPagamento> listaFormas = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gasto);
+        setContentView(R.layout.activity_receita);
 
         db = FirebaseFirestore.getInstance();
 
-        spUsuario = findViewById(R.id.spUsuario);
-        spCategoria = findViewById(R.id.spCategoria);
-        spFormaPagamento = findViewById(R.id.spFormaPagamento);
+        spUsuario = findViewById(R.id.spUsuarioReceita);
+        spFormaPagamento = findViewById(R.id.spFormaReceita);
 
-        edtValor = findViewById(R.id.edtValor);
-        edtDescricao = findViewById(R.id.edtDescricao);
+        edtValor = findViewById(R.id.edtValorReceita);
+        edtDescricao = findViewById(R.id.edtDescricaoReceita);
+        edtOrigem = findViewById(R.id.edtOrigemReceita);
 
-        btnSalvar = findViewById(R.id.btnSalvarGasto);
-        btnVoltar = findViewById(R.id.btnVoltar);
+        btnSalvar = findViewById(R.id.btnSalvarReceita);
+        btnVoltar = findViewById(R.id.btnVoltarReceita);
 
         carregarUsuarios();
-        carregarCategorias();
         carregarFormasPagamento();
 
-        btnSalvar.setOnClickListener(v -> salvarGasto());
+        btnSalvar.setOnClickListener(v -> salvarReceita());
 
         btnVoltar.setOnClickListener(v -> finish());
     }
@@ -56,6 +53,7 @@ public class GastoActivity extends AppCompatActivity {
         db.collection("usuarios")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
+
                     listaUsuarios.clear();
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -76,34 +74,11 @@ public class GastoActivity extends AppCompatActivity {
                 });
     }
 
-    private void carregarCategorias() {
-        db.collection("categorias")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    listaCategorias.clear();
-
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                            this,
-                            android.R.layout.simple_spinner_item
-                    );
-
-                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                        Categoria c = doc.toObject(Categoria.class);
-                        c.setId(doc.getId());
-
-                        listaCategorias.add(c);
-                        adapter.add(c.getNome());
-                    }
-
-                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spCategoria.setAdapter(adapter);
-                });
-    }
-
     private void carregarFormasPagamento() {
         db.collection("formas_pagamento")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
+
                     listaFormas.clear();
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -124,9 +99,11 @@ public class GastoActivity extends AppCompatActivity {
                 });
     }
 
-    private void salvarGasto() {
+    private void salvarReceita() {
+
         String valorTexto = edtValor.getText().toString().trim();
         String descricao = edtDescricao.getText().toString().trim();
+        String origem = edtOrigem.getText().toString().trim();
 
         if (valorTexto.isEmpty()) {
             edtValor.setError("Digite o valor!");
@@ -138,33 +115,34 @@ public class GastoActivity extends AppCompatActivity {
             return;
         }
 
+        if (origem.isEmpty()) {
+            edtOrigem.setError("Digite a origem!");
+            return;
+        }
+
         double valor = Double.parseDouble(valorTexto);
 
         Usuario usuario = listaUsuarios.get(spUsuario.getSelectedItemPosition());
-        Categoria categoria = listaCategorias.get(spCategoria.getSelectedItemPosition());
         FormaPagamento forma = listaFormas.get(spFormaPagamento.getSelectedItemPosition());
 
-        Gasto gasto = new Gasto(
+        Receita receita = new Receita(
                 valor,
                 descricao,
+                origem,
                 usuario.getId(),
                 usuario.getNome(),
-                categoria.getId(),
-                categoria.getNome(),
                 forma.getId(),
                 forma.getNome()
         );
 
-        db.collection("gastos")
-                .add(gasto)
+        db.collection("receitas")
+                .add(receita)
                 .addOnSuccessListener(documentReference -> {
                     edtValor.setText("");
                     edtDescricao.setText("");
+                    edtOrigem.setText("");
 
-                    Toast.makeText(this, "Gasto salvo!", Toast.LENGTH_SHORT).show();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Erro ao salvar: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Receita salva!", Toast.LENGTH_SHORT).show();
                 });
     }
 }
