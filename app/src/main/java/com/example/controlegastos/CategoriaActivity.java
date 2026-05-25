@@ -1,5 +1,7 @@
 package com.example.controlegastos;
 
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -106,8 +108,14 @@ public class CategoriaActivity extends AppCompatActivity {
 
                         LinearLayout linha = new LinearLayout(this);
                         linha.setOrientation(LinearLayout.HORIZONTAL);
-                        linha.setBackgroundResource(R.drawable.card_gasto);
                         linha.setPadding(20, 20, 20, 20);
+
+                        GradientDrawable fundo = new GradientDrawable();
+                        fundo.setCornerRadius(28);
+                        fundo.setColor(Color.parseColor("#1E1E1E"));
+                        fundo.setStroke(3, Color.parseColor("#66BB6A"));
+
+                        linha.setBackground(fundo);
 
                         LinearLayout.LayoutParams linhaParams =
                                 new LinearLayout.LayoutParams(
@@ -121,7 +129,7 @@ public class CategoriaActivity extends AppCompatActivity {
                         TextView txt = new TextView(this);
                         txt.setText(c.getNome());
                         txt.setTextSize(16);
-                        txt.setTextColor(android.graphics.Color.BLACK);
+                        txt.setTextColor(Color.WHITE);
 
                         LinearLayout.LayoutParams txtParams =
                                 new LinearLayout.LayoutParams(
@@ -133,11 +141,11 @@ public class CategoriaActivity extends AppCompatActivity {
                         txt.setLayoutParams(txtParams);
 
                         Button btnEditar = new Button(this);
-                        btnEditar.setText("EDITAR");
+                        btnEditar.setText("Editar");
                         btnEditar.setTextSize(11);
                         btnEditar.setPadding(20, 10, 20, 10);
                         btnEditar.setBackgroundResource(R.drawable.botao);
-                        btnEditar.setTextColor(android.graphics.Color.WHITE);
+                        btnEditar.setTextColor(Color.WHITE);
 
                         LinearLayout.LayoutParams editarParams =
                                 new LinearLayout.LayoutParams(
@@ -154,19 +162,11 @@ public class CategoriaActivity extends AppCompatActivity {
                         });
 
                         Button btnExcluir = new Button(this);
-                        btnExcluir.setText("EXCLUIR");
+                        btnExcluir.setText("Excluir");
                         btnExcluir.setTextSize(11);
                         btnExcluir.setPadding(20, 10, 20, 10);
                         btnExcluir.setBackgroundResource(R.drawable.botao_excluir);
-                        btnExcluir.setTextColor(android.graphics.Color.WHITE);
-
-                        LinearLayout.LayoutParams excluirParams =
-                                new LinearLayout.LayoutParams(
-                                        LinearLayout.LayoutParams.WRAP_CONTENT,
-                                        LinearLayout.LayoutParams.WRAP_CONTENT
-                                );
-
-                        btnExcluir.setLayoutParams(excluirParams);
+                        btnExcluir.setTextColor(Color.WHITE);
 
                         btnExcluir.setOnClickListener(v -> excluirCategoriaComVerificacao(c));
 
