@@ -37,7 +37,6 @@ public class CategoriaActivity extends AppCompatActivity {
         atualizarLista();
 
         btnSalvar.setOnClickListener(v -> salvarOuAtualizar());
-
         btnVoltar.setOnClickListener(v -> finish());
     }
 
@@ -70,6 +69,28 @@ public class CategoriaActivity extends AppCompatActivity {
                         atualizarLista();
                     });
         }
+    }
+
+    private void excluirCategoriaComVerificacao(Categoria c) {
+        db.collection("gastos")
+                .whereEqualTo("categoriaId", c.getId())
+                .get()
+                .addOnSuccessListener(gastos -> {
+
+                    if (!gastos.isEmpty()) {
+                        Toast.makeText(this, "Não é possível excluir. Categoria possui gasto vinculado!", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    db.collection("categorias")
+                            .document(c.getId())
+                            .delete()
+                            .addOnSuccessListener(unused -> {
+                                limparCampos();
+                                Toast.makeText(this, "Categoria excluída!", Toast.LENGTH_SHORT).show();
+                                atualizarLista();
+                            });
+                });
     }
 
     private void atualizarLista() {
@@ -147,16 +168,7 @@ public class CategoriaActivity extends AppCompatActivity {
 
                         btnExcluir.setLayoutParams(excluirParams);
 
-                        btnExcluir.setOnClickListener(v -> {
-                            db.collection("categorias")
-                                    .document(c.getId())
-                                    .delete()
-                                    .addOnSuccessListener(unused -> {
-                                        limparCampos();
-                                        Toast.makeText(this, "Categoria excluída!", Toast.LENGTH_SHORT).show();
-                                        atualizarLista();
-                                    });
-                        });
+                        btnExcluir.setOnClickListener(v -> excluirCategoriaComVerificacao(c));
 
                         linha.addView(txt);
                         linha.addView(btnEditar);

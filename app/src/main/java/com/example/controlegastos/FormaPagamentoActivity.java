@@ -37,7 +37,6 @@ public class FormaPagamentoActivity extends AppCompatActivity {
         atualizarLista();
 
         btnSalvar.setOnClickListener(v -> salvarOuAtualizar());
-
         btnVoltar.setOnClickListener(v -> finish());
     }
 
@@ -70,6 +69,39 @@ public class FormaPagamentoActivity extends AppCompatActivity {
                         atualizarLista();
                     });
         }
+    }
+
+    private void excluirFormaComVerificacao(FormaPagamento f) {
+        db.collection("gastos")
+                .whereEqualTo("formaPagamentoId", f.getId())
+                .get()
+                .addOnSuccessListener(gastos -> {
+
+                    if (!gastos.isEmpty()) {
+                        Toast.makeText(this, "Não é possível excluir. Forma possui gasto vinculado!", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    db.collection("receitas")
+                            .whereEqualTo("formaPagamentoId", f.getId())
+                            .get()
+                            .addOnSuccessListener(receitas -> {
+
+                                if (!receitas.isEmpty()) {
+                                    Toast.makeText(this, "Não é possível excluir. Forma possui receita vinculada!", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+
+                                db.collection("formas_pagamento")
+                                        .document(f.getId())
+                                        .delete()
+                                        .addOnSuccessListener(unused -> {
+                                            limparCampos();
+                                            Toast.makeText(this, "Forma excluída!", Toast.LENGTH_SHORT).show();
+                                            atualizarLista();
+                                        });
+                            });
+                });
     }
 
     private void atualizarLista() {
@@ -147,16 +179,7 @@ public class FormaPagamentoActivity extends AppCompatActivity {
 
                         btnExcluir.setLayoutParams(excluirParams);
 
-                        btnExcluir.setOnClickListener(v -> {
-                            db.collection("formas_pagamento")
-                                    .document(f.getId())
-                                    .delete()
-                                    .addOnSuccessListener(unused -> {
-                                        limparCampos();
-                                        Toast.makeText(this, "Forma excluída!", Toast.LENGTH_SHORT).show();
-                                        atualizarLista();
-                                    });
-                        });
+                        btnExcluir.setOnClickListener(v -> excluirFormaComVerificacao(f));
 
                         linha.addView(txt);
                         linha.addView(btnEditar);

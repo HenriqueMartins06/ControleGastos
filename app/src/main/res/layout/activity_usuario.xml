@@ -7,29 +7,34 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center_horizontal"
-    android:background="#EEF3F8">
+    android:background="#121212">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gerenciar Usuários"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
-        android:textColor="#1565C0"
+        android:textColor="#FFFFFF"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"/>
 
     <EditText
         android:id="@+id/edtNomeUsuario"
-        android:layout_width="220dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:hint="Nome do usuário"/>
+        android:hint="Nome do usuário"
+        android:hintTextColor="#9E9E9E"
+        android:textColor="#FFFFFF"
+        android:textColorHighlight="#FFFFFF"
+        android:backgroundTint="#66BB6A"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Use Editar ou Excluir ao lado do usuário"
         android:textSize="12sp"
+        android:textColor="#B0B0B0"
         android:layout_marginTop="10dp"/>
 
     <ScrollView
@@ -37,7 +42,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="15dp">
+        android:layout_marginBottom="15dp"
+        android:padding="4dp">
 
         <LinearLayout
             android:id="@+id/layoutUsuarios"
@@ -48,7 +54,7 @@
 
     <Button
         android:id="@+id/btnSalvarUsuario"
-        android:layout_width="220dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:text="Salvar / Atualizar"
         android:background="@drawable/botao"
@@ -58,7 +64,7 @@
 
     <Button
         android:id="@+id/btnVoltar"
-        android:layout_width="220dp"
+        android:layout_width="240dp"
         android:layout_height="wrap_content"
         android:text="Voltar"
         android:background="@drawable/botao"

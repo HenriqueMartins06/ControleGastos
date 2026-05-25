@@ -37,7 +37,6 @@ public class UsuarioActivity extends AppCompatActivity {
         atualizarLista();
 
         btnSalvar.setOnClickListener(v -> salvarOuAtualizar());
-
         btnVoltar.setOnClickListener(v -> finish());
     }
 
@@ -70,6 +69,39 @@ public class UsuarioActivity extends AppCompatActivity {
                         atualizarLista();
                     });
         }
+    }
+
+    private void excluirUsuarioComVerificacao(Usuario u) {
+        db.collection("gastos")
+                .whereEqualTo("usuarioId", u.getId())
+                .get()
+                .addOnSuccessListener(gastos -> {
+
+                    if (!gastos.isEmpty()) {
+                        Toast.makeText(this, "Não é possível excluir. Usuário possui gasto vinculado!", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    db.collection("receitas")
+                            .whereEqualTo("usuarioId", u.getId())
+                            .get()
+                            .addOnSuccessListener(receitas -> {
+
+                                if (!receitas.isEmpty()) {
+                                    Toast.makeText(this, "Não é possível excluir. Usuário possui receita vinculada!", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+
+                                db.collection("usuarios")
+                                        .document(u.getId())
+                                        .delete()
+                                        .addOnSuccessListener(unused -> {
+                                            limparCampos();
+                                            Toast.makeText(this, "Usuário excluído!", Toast.LENGTH_SHORT).show();
+                                            atualizarLista();
+                                        });
+                            });
+                });
     }
 
     private void atualizarLista() {
@@ -147,16 +179,7 @@ public class UsuarioActivity extends AppCompatActivity {
 
                         btnExcluir.setLayoutParams(excluirParams);
 
-                        btnExcluir.setOnClickListener(v -> {
-                            db.collection("usuarios")
-                                    .document(u.getId())
-                                    .delete()
-                                    .addOnSuccessListener(unused -> {
-                                        limparCampos();
-                                        Toast.makeText(this, "Usuário excluído!", Toast.LENGTH_SHORT).show();
-                                        atualizarLista();
-                                    });
-                        });
+                        btnExcluir.setOnClickListener(v -> excluirUsuarioComVerificacao(u));
 
                         linha.addView(txt);
                         linha.addView(btnEditar);
