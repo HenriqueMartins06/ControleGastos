@@ -1,95 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center_horizontal"
-    android:background="#EEF3F8">
+    android:background="#121212">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Registrar Novo Gasto"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:textColor="#1565C0"/>
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
 
-    <TextView
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:text="Selecione o Usuário:"
-        android:textSize="12sp"
-        android:textColor="#666666"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Registrar Novo Gasto"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"/>
 
-    <Spinner
-        android:id="@+id/spUsuario"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"/>
+        <TextView
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Selecione o Usuário"
+            android:textSize="12sp"
+            android:textColor="#B0B0B0"/>
 
-    <TextView
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:text="Selecione a Categoria:"
-        android:textSize="12sp"
-        android:textColor="#666666"/>
+        <Spinner
+            android:id="@+id/spUsuario"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#66BB6A"/>
 
-    <Spinner
-        android:id="@+id/spCategoria"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"/>
+        <TextView
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Selecione a Categoria"
+            android:textSize="12sp"
+            android:textColor="#B0B0B0"/>
 
-    <TextView
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:text="Forma de Pagamento:"
-        android:textSize="12sp"
-        android:textColor="#666666"/>
+        <Spinner
+            android:id="@+id/spCategoria"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#66BB6A"/>
 
-    <Spinner
-        android:id="@+id/spFormaPagamento"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"/>
+        <TextView
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Forma de Pagamento"
+            android:textSize="12sp"
+            android:textColor="#B0B0B0"/>
 
-    <EditText
-        android:id="@+id/edtValor"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:hint="Valor (R$)"
-        android:inputType="numberDecimal"
-        android:layout_marginBottom="8dp"/>
+        <Spinner
+            android:id="@+id/spFormaPagamento"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="#66BB6A"/>
 
-    <EditText
-        android:id="@+id/edtDescricao"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:hint="Descrição"
-        android:layout_marginBottom="15dp"/>
+        <EditText
+            android:id="@+id/edtValor"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:hint="Valor (R$)"
+            android:textColorHint="#9E9E9E"
+            android:textColor="#FFFFFF"
+            android:inputType="numberDecimal"
+            android:backgroundTint="#66BB6A"
+            android:layout_marginBottom="10dp"/>
 
-    <Button
-        android:id="@+id/btnSalvarGasto"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:text="Salvar Gasto"
-        android:background="@drawable/botao"
-        android:textColor="#FFFFFF"
-        android:textAllCaps="false"
-        android:layout_marginBottom="8dp"/>
+        <EditText
+            android:id="@+id/edtDescricao"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:hint="Descrição"
+            android:textColorHint="#9E9E9E"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#66BB6A"
+            android:layout_marginBottom="20dp"/>
 
-    <Button
-        android:id="@+id/btnVoltar"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:text="Voltar"
-        android:background="@drawable/botao"
-        android:textColor="#FFFFFF"
-        android:textAllCaps="false"/>
+        <Button
+            android:id="@+id/btnSalvarGasto"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Salvar Gasto"
+            android:background="@drawable/botao"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:layout_marginBottom="8dp"/>
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btnVoltar"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Voltar"
+            android:background="@drawable/botao"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:layout_marginBottom="20dp"/>
+
+    </LinearLayout>
+
+</ScrollView>
