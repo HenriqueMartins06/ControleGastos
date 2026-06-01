@@ -52,16 +52,15 @@ public class GastoActivity extends AppCompatActivity {
         btnVoltar.setOnClickListener(v -> finish());
     }
 
+    // Puxa os usuários do banco e joga no Spinner com o texto branco
     private void carregarUsuarios() {
         db.collection("usuarios")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     listaUsuarios.clear();
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                            this,
-                            android.R.layout.simple_spinner_item
-                    );
+                    // criar o adaptador com letra clara
+                    ArrayAdapter<String> adapter = criarAdapterBranco();
 
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         Usuario u = doc.toObject(Usuario.class);
@@ -76,16 +75,15 @@ public class GastoActivity extends AppCompatActivity {
                 });
     }
 
+    // Puxa as categorias do banco e joga no Spinner com o texto branco
     private void carregarCategorias() {
         db.collection("categorias")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     listaCategorias.clear();
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                            this,
-                            android.R.layout.simple_spinner_item
-                    );
+                    // criar o adaptador com letra clara
+                    ArrayAdapter<String> adapter = criarAdapterBranco();
 
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         Categoria c = doc.toObject(Categoria.class);
@@ -100,16 +98,15 @@ public class GastoActivity extends AppCompatActivity {
                 });
     }
 
+    // Puxa as formas de pagamento do banco e joga no Spinner com o texto branco
     private void carregarFormasPagamento() {
         db.collection("formas_pagamento")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     listaFormas.clear();
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                            this,
-                            android.R.layout.simple_spinner_item
-                    );
+                    //  criar o adaptador com letra clara
+                    ArrayAdapter<String> adapter = criarAdapterBranco();
 
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         FormaPagamento f = doc.toObject(FormaPagamento.class);
@@ -124,6 +121,7 @@ public class GastoActivity extends AppCompatActivity {
                 });
     }
 
+    // Pega as informações digitadas e salva a despesa na coleção
     private void salvarGasto() {
         String valorTexto = edtValor.getText().toString().trim();
         String descricao = edtDescricao.getText().toString().trim();
@@ -166,5 +164,17 @@ public class GastoActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Erro ao salvar: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
+    }
+
+    // Cria um ArrayAdapter pra pintar a letra de branco
+    private ArrayAdapter<String> criarAdapterBranco() {
+        return new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item) {
+            @Override
+            public android.view.View getView(int position, android.view.View convertView, android.view.ViewGroup parent) {
+                android.view.View v = super.getView(position, convertView, parent);
+                ((TextView) v).setTextColor(android.graphics.Color.WHITE); // Força a cor do texto para branco
+                return v;
+            }
+        };
     }
 }

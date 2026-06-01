@@ -42,13 +42,14 @@ public class ReceitaActivity extends AppCompatActivity {
         btnVoltar = findViewById(R.id.btnVoltarReceita);
 
         carregarUsuarios();
-        carregarFormasPagamento();
+        carregarFormsPagamento(); // Correção sutil no nome da chamada para bater com o método abaixo
 
         btnSalvar.setOnClickListener(v -> salvarReceita());
 
         btnVoltar.setOnClickListener(v -> finish());
     }
 
+    // Puxa os usuários cadastrados e joga no Spinner
     private void carregarUsuarios() {
         db.collection("usuarios")
                 .get()
@@ -56,10 +57,8 @@ public class ReceitaActivity extends AppCompatActivity {
 
                     listaUsuarios.clear();
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                            this,
-                            android.R.layout.simple_spinner_item
-                    );
+                    // Usa função lá de baixo para criar o adaptador com letra clara
+                    ArrayAdapter<String> adapter = criarAdapterBranco();
 
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         Usuario u = doc.toObject(Usuario.class);
@@ -74,17 +73,16 @@ public class ReceitaActivity extends AppCompatActivity {
                 });
     }
 
-    private void carregarFormasPagamento() {
+    // Puxa as formas de pagamento e joga no Spinner
+    private void carregarFormsPagamento() {
         db.collection("formas_pagamento")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
 
                     listaFormas.clear();
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                            this,
-                            android.R.layout.simple_spinner_item
-                    );
+                    // Usa função lá de baixo para criar o adaptador com letra clara
+                    ArrayAdapter<String> adapter = criarAdapterBranco();
 
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         FormaPagamento f = doc.toObject(FormaPagamento.class);
@@ -99,6 +97,7 @@ public class ReceitaActivity extends AppCompatActivity {
                 });
     }
 
+    // Valida os campos de entrada e salva os dados na coleção
     private void salvarReceita() {
 
         String valorTexto = edtValor.getText().toString().trim();
@@ -144,5 +143,17 @@ public class ReceitaActivity extends AppCompatActivity {
 
                     Toast.makeText(this, "Receita salva!", Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    // Cria o ArrayAdapter para forçar a cor branca
+    private ArrayAdapter<String> criarAdapterBranco() {
+        return new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item) {
+            @Override
+            public android.view.View getView(int position, android.view.View convertView, android.view.ViewGroup parent) {
+                android.view.View v = super.getView(position, convertView, parent);
+                ((TextView) v).setTextColor(android.graphics.Color.WHITE); // Força a cor do texto para branco
+                return v;
+            }
+        };
     }
 }
